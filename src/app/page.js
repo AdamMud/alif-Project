@@ -68,31 +68,64 @@
 
 
 
+// "use client";
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation";
+// import { entryPage } from "@/lib/api/auth";
+// import { useAuth } from "@/lib/hooks/useAuth";
+
+// export default function Entry() {
+//   const router = useRouter();
+//   const { saveToken } = useAuth();
+
+//   useEffect(() => {
+//     const telegramId = 123456789; // замените реальным ID в production
+
+//     (async () => {
+//       try {
+//         const res = await entryPage(telegramId);
+//         if (res.status === 200 && res.data?.token) {
+//           saveToken(res.data.token);
+//           router.push("/home");
+//         } else {
+//           router.push("/join");
+//         }
+//       } catch (err) {
+//         if (err?.response?.status === 404) router.push("/join");
+//         else router.push("/join");
+//       }
+//     })();
+//   }, []);
+
+//   return <div className="h-60 flex items-center justify-center">Проверка пользователя…</div>;
+// }
+
+
+
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { entryPage } from "@/lib/api/auth";
 import { useAuth } from "@/lib/hooks/useAuth";
 
-export default function Entry() {
+export default function EntryPage() {
   const router = useRouter();
   const { saveToken } = useAuth();
 
   useEffect(() => {
-    const telegramId = 123456789; // замените реальным ID в production
+    const telegramId = 123456789;
 
     (async () => {
       try {
         const res = await entryPage(telegramId);
-        if (res.status === 200 && res.data?.token) {
+        if (res?.data?.token) {
           saveToken(res.data.token);
           router.push("/home");
         } else {
           router.push("/join");
         }
       } catch (err) {
-        if (err?.response?.status === 404) router.push("/join");
-        else router.push("/join");
+        router.push("/join");
       }
     })();
   }, []);
